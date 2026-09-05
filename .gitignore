@@ -1,0 +1,120 @@
+# ==============================================================================
+# Gitignore for Sepang Pit Wall (Vite + React + Remotion + Blender + Python)
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Dependencies & Package Managers
+# ------------------------------------------------------------------------------
+node_modules/
+.pnpm-store/
+
+# ------------------------------------------------------------------------------
+# Build & Distribution Artifacts
+# ------------------------------------------------------------------------------
+dist/
+dist-ssr/
+build/
+.cache/
+.vite/
+.parcel-cache/
+.remotion/
+
+# ------------------------------------------------------------------------------
+# Python & Virtual Environments
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+env.bak/
+venv.bak/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.mypy_cache/
+
+# ------------------------------------------------------------------------------
+# Blender & 3D Renders / Heavy Outputs
+# ------------------------------------------------------------------------------
+# Ignore all frame-by-frame renders, probe tests, audio synths, and render logs (~3.5GB+)
+blender/out/
+
+# Blender backup / recovery files
+*.blend1
+*.blend2
+*.blend@*
+*.blend[0-9]
+
+# Intermediate video parts and stitching cuts (not required for runtime)
+*.part.mp4
+sepang_cine_highlight.mp4
+sepang_onboard_reel.mp4
+sepang_pov_reel.mp4
+
+# NOTE on final runtime videos:
+# The Vite application serves the following 3 final videos (~63MB combined):
+#   - sepang_onboard_final.mp4 (~5.4MB)
+#   - sepang_pov_final.mp4     (~14.0MB)
+#   - sepang_highlight_final.mp4 (~43.5MB)
+# All 3 are within GitHub's 100MB per-file limit.
+# If you prefer to exclude all videos and host them on Git LFS or a CDN,
+# uncomment the line below:
+# *.mp4
+
+# ------------------------------------------------------------------------------
+# Environment Variables & Credentials
+# ------------------------------------------------------------------------------
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.env.*
+!.env.example
+
+# ------------------------------------------------------------------------------
+# Logs & Diagnostics
+# ------------------------------------------------------------------------------
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------------------------------------------
+# IDEs & Editor Configuration
+# ------------------------------------------------------------------------------
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# AI / IDE Agent Metadata
+.kiro/
+
+# ------------------------------------------------------------------------------
+# Operating System Files
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+

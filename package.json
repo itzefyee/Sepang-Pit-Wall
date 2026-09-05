@@ -1,0 +1,23 @@
+{
+  "name": "sepang-f1-pit-wall",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@remotion/player": "4.0.520",
+    "motion": "13.2.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.520"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "5.2.0",
+    "puppeteer": "^25.9.0",
+    "vite": "^6.0.0"
+  }
+}

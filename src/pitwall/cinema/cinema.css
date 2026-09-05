@@ -1,0 +1,259 @@
+/* ==========================================================================
+   Cinema surface — the Remotion player and its transport
+   ========================================================================== */
+
+.stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #03060a;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--e-mid);
+}
+
+.stage__screen {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #03060a;
+  overflow: hidden;
+}
+
+/* full-bleed hero: crop to cover the container instead of letterboxing */
+.stage--fill {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  height: 100%;
+}
+
+.stage--fill .stage__screen {
+  aspect-ratio: auto;
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+.stage--fill .stage__screen > * {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* cover a container of any shape with a 16:9 composition */
+  width: max(100%, calc(100vh * 16 / 9)) !important;
+  height: max(100%, calc(100vw * 9 / 16)) !important;
+}
+
+.stage__sound-control {
+  position: absolute;
+  z-index: 3;
+  right: clamp(16px, 3vw, 42px);
+  top: clamp(16px, 3vw, 32px);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid rgba(233, 239, 245, 0.32);
+  border-radius: 999px;
+  background: rgba(4, 7, 10, 0.7);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  color: var(--ink-2);
+  cursor: pointer;
+  font: 600 0.7rem/1 var(--font-head);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  transition: color var(--t-micro), background var(--t-micro), border-color var(--t-micro);
+}
+
+.stage__sound-control:hover,
+.stage__sound-control[aria-pressed="true"] {
+  border-color: rgba(47, 191, 113, 0.65);
+  background: rgba(7, 25, 20, 0.82);
+  color: #d8ffeb;
+}
+
+.stage__sound-control:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.stage__loading,
+.stage__fail {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: var(--s2);
+  text-align: center;
+  padding: var(--s6);
+  background: #03060a;
+}
+
+.stage__fail p {
+  max-width: 46ch;
+  margin-inline: auto;
+}
+
+/* --- transport ---------------------------------------------------------- */
+
+.stage__transport {
+  border-top: 1px solid var(--line);
+  background: rgba(7, 11, 15, 0.9);
+  backdrop-filter: blur(14px);
+}
+
+.stage__row {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  padding: var(--s3) var(--s4);
+}
+
+.tbtn {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  background: var(--inset);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color var(--t-micro), border-color var(--t-micro),
+    background var(--t-micro);
+}
+
+.tbtn:hover {
+  color: var(--ink);
+  border-color: var(--line-strong);
+  background: var(--elevated);
+}
+
+.tbtn--primary {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
+.tbtn--primary:hover {
+  background: var(--red-bright);
+  border-color: var(--red-bright);
+  color: #fff;
+}
+
+.tbtn[data-on="true"] {
+  color: var(--green);
+  border-color: rgba(47, 191, 113, 0.4);
+}
+
+.stage__scrubwrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+}
+
+.stage__scrub {
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.stage__ticks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.stage__tick {
+  position: absolute;
+  top: 50%;
+  width: 1px;
+  height: 12px;
+  margin-top: -6px;
+  background: rgba(233, 239, 245, 0.32);
+}
+
+.stage__tick[data-active="true"] {
+  background: var(--red-bright);
+  height: 18px;
+  margin-top: -9px;
+  width: 2px;
+}
+
+.stage__clock {
+  flex: none;
+  font-size: 0.75rem;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+/* --- shot chips --------------------------------------------------------- */
+
+.stage__cuts {
+  display: flex;
+  gap: 4px;
+  padding: 0 var(--s4) var(--s3);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.stage__cuts::-webkit-scrollbar {
+  display: none;
+}
+
+.stage__cut {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-4);
+  cursor: pointer;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  transition: color var(--t-micro), border-color var(--t-micro),
+    background var(--t-micro);
+}
+
+.stage__cut:hover {
+  color: var(--ink);
+  background: var(--elevated);
+}
+
+.stage__cut[aria-selected="true"] {
+  color: #fff;
+  border-color: var(--line-red);
+  background: rgba(216, 31, 38, 0.16);
+}
+
+.stage__cutno {
+  font-size: 0.625rem;
+  color: var(--red-bright);
+  letter-spacing: 0.06em;
+}
+
+.stage__cutname {
+  font-family: var(--font-head);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 640px) {
+  .stage__cutname {
+    display: none;
+  }
+  .stage__row {
+    gap: var(--s2);
+    padding: var(--s2) var(--s3);
+  }
+}

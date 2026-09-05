@@ -1,0 +1,340 @@
+{
+  "meta": {
+    "name": "Sepang Pit Wall — Monsoon Broadcast DNA",
+    "description": "Design DNA for the Sepang F1 strategy, learning and simulation site. The palette is measured deterministically from a frame of the project's own onboard render (sepang_onboard_final.mp4 @ 00:04) rather than estimated by eye, then inverted into a dark broadcast UI so the footage stays the brightest thing on the page.",
+    "source_references": [
+      ".kiro/tmp/frames/onboard.png (frame extracted from sepang_onboard_final.mp4 at t=4s)",
+      "sepang_pov_final.mp4 (t=10s) — same grade family, confirmed dominant slate/steel hues",
+      "sepang_highlight_final.mp4 (t=30s) — confirmed Ferrari red as the only saturated hue in frame",
+      "gauntlet-loop-ferrari-f1-blender.md — Ferrari SF-26 Rosso Corsa livery brief",
+      "src/weather/SepangWeatherEngine.js — Petronas teal (#00A19B) used for circuit/radar chrome"
+    ],
+    "created_at": "2026-09-05"
+  },
+  "design_system": {
+    "color": {
+      "palette_type": "split-complementary",
+      "primary": {
+        "hex": "#d81f26",
+        "role": "Ferrari Rosso Corsa. Primary actions, active states, the single saturated hue in the interface."
+      },
+      "secondary": {
+        "hex": "#adbdcb",
+        "role": "Measured verbatim from the footage sky (36.2% coverage). Foreground text at the light end of the neutral scale, plus informational chrome and chart axes."
+      },
+      "accent": {
+        "hex": "#86262b",
+        "role": "Measured verbatim from the footage (accent role, 1.45% coverage) — the Ferrari bodywork as the atmosphere actually renders it. Used for deep-red gradient bases, inactive red states and section rules."
+      },
+      "neutral": {
+        "scale": [
+          "#e9eff5",
+          "#adbdcb",
+          "#9aa2ae",
+          "#65707d",
+          "#4d5d6b",
+          "#42525e",
+          "#1f2730",
+          "#131a22",
+          "#0a0e13"
+        ],
+        "usage": "Ordered lightest to darkest. Six of the nine steps (#adbdcb, #9aa2ae, #65707d, #4d5d6b, #42525e, #1f2730) are measured cluster centroids from the onboard frame. Because the interface is dark, the measured `text` centroid #1f2730 becomes the panel-border / inset tier and the measured `background` centroid #adbdcb is promoted to the foreground role: primary body text #e9eff5, secondary text #adbdcb, muted text #9aa2ae, disabled #65707d."
+      },
+      "semantic": {
+        "success": "#2fbf71",
+        "warning": "#e8b93b",
+        "error": "#ff5a5f",
+        "info": "#00a19b"
+      },
+      "surface": {
+        "background": "#0a0e13",
+        "card": "#101720",
+        "elevated": "#18212b"
+      },
+      "contrast_strategy": "Dark-dominant with subtle layers. Three surface tiers separated by ~6% luminance and a 1px rgba(173,189,203,0.10) hairline rather than by shadow. Body text holds >= 11:1 against the background; the red accent is never used for body copy, only for fills, rules and >=16px semibold labels, so the single low-contrast hue never carries reading load.",
+      "measurement": {
+        "k": 8,
+        "sampling": {
+          "method": "deterministic_stratified",
+          "max_pixels": 160000,
+          "sampled_pixels": 160000
+        }
+      },
+      "measured_palette": [
+        { "hex": "#adbdcb", "coverage": 0.3624, "role": "background" },
+        { "hex": "#4d5d6b", "coverage": 0.2013, "role": "unassigned" },
+        { "hex": "#9aa2ae", "coverage": 0.1846, "role": "unassigned" },
+        { "hex": "#42525e", "coverage": 0.1442, "role": "unassigned" },
+        { "hex": "#65707d", "coverage": 0.0676, "role": "unassigned" },
+        { "hex": "#1f2730", "coverage": 0.0248, "role": "text" },
+        { "hex": "#86262b", "coverage": 0.0145, "role": "accent" },
+        { "hex": "#f3988d", "coverage": 0.0004, "role": "unassigned" }
+      ]
+    },
+    "typography": {
+      "type_scale": {
+        "display": { "size": "clamp(3rem, 8vw, 7.5rem)", "weight": "700", "line_height": "0.92", "tracking": "-0.03em" },
+        "heading_1": { "size": "clamp(2rem, 4vw, 3.25rem)", "weight": "700", "line_height": "1.02", "tracking": "-0.02em" },
+        "heading_2": { "size": "clamp(1.5rem, 2.4vw, 2.125rem)", "weight": "600", "line_height": "1.1", "tracking": "-0.01em" },
+        "heading_3": { "size": "1.1875rem", "weight": "600", "line_height": "1.25", "tracking": "0" },
+        "body": { "size": "1rem", "weight": "400", "line_height": "1.65", "tracking": "0" },
+        "body_small": { "size": "0.875rem", "weight": "400", "line_height": "1.6", "tracking": "0" },
+        "caption": { "size": "0.75rem", "weight": "500", "line_height": "1.45", "tracking": "0.01em" },
+        "overline": { "size": "0.6875rem", "weight": "700", "line_height": "1.2", "tracking": "0.18em" }
+      },
+      "font_families": {
+        "heading": "'Chakra Petch', 'Saira Condensed', 'Segoe UI', system-ui, sans-serif",
+        "body": "'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif",
+        "mono": "'JetBrains Mono', 'Cascadia Mono', ui-monospace, monospace"
+      },
+      "font_style_notes": "Squared-off technical sans for headings — the flat terminals and low-slung apertures of Chakra Petch read as motorsport telemetry rather than generic geometric. Overlines are always uppercase with 0.18em tracking, mimicking timing-screen labels. All numerals in data contexts use font-variant-numeric: tabular-nums so columns of lap times do not shimmer as they update."
+    },
+    "spacing": {
+      "base_unit": "4px",
+      "scale": ["4px", "8px", "12px", "16px", "20px", "24px", "32px", "40px", "56px", "80px", "112px", "160px"],
+      "content_density": "compact inside data panels, comfortable in editorial and hero blocks",
+      "section_rhythm": "112px between major sections on desktop collapsing to 64px on mobile; a 1px hairline plus an uppercase overline marks each boundary so the rhythm stays legible even when a section is dense with tables."
+    },
+    "layout": {
+      "grid_system": "12-column fluid grid with full-bleed escapes for video and the circuit map",
+      "max_content_width": "1360px",
+      "columns": "12",
+      "gutter": "24px",
+      "breakpoints": ["480px", "768px", "1024px", "1280px", "1600px"],
+      "alignment_tendency": "strict grid for data, asymmetric for editorial — headline blocks sit left in a 7-column well against a 5-column stat rail"
+    },
+    "shape": {
+      "border_radius": { "small": "4px", "medium": "8px", "large": "14px", "pill": "999px" },
+      "border_usage": "subtle 1px rgba(173,189,203,0.10), raised to rgba(216,31,38,0.45) on active/selected",
+      "divider_style": "1px hairline in #1f2730, occasionally doubled with a 2px red segment on the left 48px to mark a section start"
+    },
+    "elevation": {
+      "shadow_style": "layered — a hairline highlight above, a broad soft shadow below, no mid-tier drop shadows",
+      "levels": {
+        "low": "0 1px 0 rgba(233,239,245,0.04), 0 2px 10px rgba(0,0,0,0.45)",
+        "medium": "0 1px 0 rgba(233,239,245,0.05), 0 12px 32px rgba(0,0,0,0.55)",
+        "high": "0 1px 0 rgba(233,239,245,0.07), 0 28px 70px rgba(0,0,0,0.65), 0 0 0 1px rgba(216,31,38,0.18)"
+      },
+      "depth_cues": "surface luminance steps, hairline borders, backdrop blur on floating HUD panels, and red rim-light on the focal element"
+    },
+    "iconography": {
+      "style": "outlined geometric, drawn inline as SVG so stroke colour inherits currentColor",
+      "stroke_weight": "1.5px",
+      "size_scale": ["14px", "16px", "20px", "24px", "32px"],
+      "preferred_set": "custom inline SVG in the spirit of FIA timing glyphs — flags, tyre discs, droplets, stopwatch, chevrons"
+    },
+    "motion": {
+      "easing": "cubic-bezier(0.16, 1, 0.30, 1) for entrances, cubic-bezier(0.65, 0, 0.35, 1) for state changes, linear for anything scrubbed by scroll or video time",
+      "duration_scale": { "micro": "140ms", "normal": "380ms", "macro": "900ms" },
+      "entrance_pattern": "18px fade-up with a clip-path wipe from the left, staggered 60ms across siblings; numbers count up rather than appearing",
+      "exit_pattern": "fast fade with a 4px settle downward, half the entrance duration",
+      "philosophy": "cinematic — motion mirrors a broadcast cut: decisive, short, never bouncy. Everything respects prefers-reduced-motion by collapsing to opacity-only."
+    },
+    "components": {
+      "button_style": "Primary: solid #d81f26, 1px lighter red rim, uppercase 0.14em-tracked label, 4px radius, translateY(-1px) plus red bloom on hover. Secondary: ghost with rgba(173,189,203,0.18) border filling to rgba(173,189,203,0.06). Tertiary: bare text with an animated 1px underline.",
+      "input_style": "Dark inset field on #0a0e13 with a 1px #1f2730 border, red 2px focus ring offset 2px. Range sliders use a red-filled track with a square 14px thumb and a live value bubble in mono.",
+      "card_style": "#101720 panel, 1px hairline, 14px radius, an uppercase overline header row divided by a hairline, and generous 20-24px padding. Data cards drop to 8px radius and 14px padding.",
+      "navigation_pattern": "Sticky translucent top bar with backdrop blur, a live session pill on the left, section anchors centred, and a scroll-progress hairline in Ferrari red pinned to the bottom edge.",
+      "modal_style": "Full-bleed dark scrim at 78% with an 18px backdrop blur; panel enters with a 24px fade-up. Used only for the cinema lightbox.",
+      "list_style": "Timing-screen tables: uppercase overline headers, hairline row rules, tabular numerals right-aligned, position column in a fixed 2ch mono cell, row hover lifts to #18212b.",
+      "component_notes": "Every data panel carries a provenance caption in caption size and muted neutral, because the credibility of the numbers is part of the product. Tyre compounds are always shown as a coloured disc plus a letter code, never colour alone, so the encoding survives colour-blindness and greyscale printing."
+    }
+  },
+  "design_style": {
+    "aesthetic": {
+      "mood": ["tense", "precise", "cinematic", "humid", "authoritative"],
+      "visual_metaphor": "a pit-wall engineering station at dusk under a monsoon warning — banks of dark data panels with one red car burning through the middle",
+      "era_influence": "contemporary Formula 1 broadcast graphics crossed with 1970s widescreen motorsport film grain",
+      "genre": "data-dense sports intelligence dashboard with editorial cinema interludes",
+      "personality_traits": ["disciplined", "candid", "obsessive", "unshowy about its own cleverness"],
+      "adjectives": ["slate", "wet", "instrumented", "high-contrast", "urgent", "legible"]
+    },
+    "visual_language": {
+      "complexity": "rich",
+      "ornamentation": "subtle accents — corner ticks, hairlines, tyre discs and sector bars carry all the decoration; no illustration, no gradients-for-their-own-sake",
+      "whitespace_usage": "generous between sections, deliberately tight inside data panels so a table reads as one object",
+      "visual_weight_distribution": "heaviest at the top (full-viewport video) then alternating: dense panel, breathing editorial line, dense panel",
+      "focal_strategy": "single hero element — the onboard clip owns the first screen; after that, one red element per viewport and nothing else competes",
+      "contrast_level": "high",
+      "texture_usage": "animated film grain over video only, plus a static 3% noise wash over the page background to stop large dark areas banding"
+    },
+    "composition": {
+      "hierarchy_method": "scale contrast plus spatial isolation — a 7.5rem display number next to 0.69rem overlines, with the important thing given room instead of colour",
+      "balance_type": "asymmetric",
+      "flow_direction": "vertical narrative: watch it, understand the circuit, plan the race, learn the corners, check the model's receipts",
+      "grouping_strategy": "bordered panels with an overline header; related panels share a row and a hairline baseline",
+      "negative_space_role": "acts as the section separator and the pacing device — the page breathes between dense blocks the way a broadcast cuts to a wide shot"
+    },
+    "imagery": {
+      "photo_treatment": "graded, not decorated — crushed blacks, lifted contrast, cool shadows and warm highlights, letterboxed to 2.39:1 with grain and vignette",
+      "illustration_style": "none; diagrams only",
+      "graphic_elements": "SVG circuit map with animated racing line, sector bars, tyre discs, doppler radar canvas, stint timelines, corner-callout brackets",
+      "pattern_usage": "diagonal 4px kerb hatch used sparingly as a section marker and on progress fills",
+      "image_shape": "hard rectangles, 2.39:1 for cinema and 16:9 for inline frames; nothing rounded larger than 14px"
+    },
+    "interaction_feel": {
+      "feedback_style": "immediate and physical — values update on the same frame as the drag, no debounce on sliders, hover states in 140ms",
+      "hover_behavior": "1px lift plus surface brightening; the accented element additionally gains a soft red bloom",
+      "transition_personality": "snappy",
+      "loading_style": "skeleton hairlines that pulse once, plus a red determinate bar for video buffering; never a spinner",
+      "microinteraction_density": "moderate — motion is reserved for state that actually changed"
+    },
+    "brand_voice_in_ui": {
+      "tone": "engineer-to-engineer: plain, specific, quantified, unembarrassed about uncertainty",
+      "formality": "neutral-professional, contractions allowed, no exclamation marks",
+      "cta_style": "direct imperative — 'Run the strategy', 'Open the film room', 'Fit intermediates'",
+      "empty_state_approach": "state what is missing and what to do about it in one sentence, with the action inline",
+      "error_tone": "factual and blameless, naming the constraint that was violated — 'Stint exceeds tyre life by 4 laps'"
+    }
+  },
+  "visual_effects": {
+    "overview": {
+      "effect_intensity": "heavy-immersive",
+      "performance_tier": "medium",
+      "fallback_strategy": "reduce to CSS — under prefers-reduced-motion the grain, parallax and title animations freeze and video autoplay is replaced by a poster frame with an explicit play control; if the Remotion player fails to mount, a plain <video> with the same grading filter takes its place",
+      "primary_technology": "Remotion (React) compositions rendered live in @remotion/player, layered with Canvas 2D, inline SVG filters and Motion (motion.dev)"
+    },
+    "background_effects": {
+      "type": "video-bg",
+      "description": "The onboard clip fills the first viewport behind the headline, graded and letterboxed, with a vertical scrim so the type stays readable. Below the fold the page background is a near-black slate wash carrying a fixed 3% noise texture and two very slow radial red/teal glows that drift on scroll.",
+      "technology": "Remotion Player for the hero composition; CSS radial-gradient plus an SVG feTurbulence noise tile for the page wash",
+      "params": {
+        "color_palette": ["#0a0e13", "#131a22", "#86262b", "#00a19b"],
+        "speed": "0.02 — glows complete a cycle over roughly 60s; video plays at native 24fps",
+        "density": "low; two glow sources, one noise tile at 128px repeat",
+        "opacity": "noise 0.03, glows 0.10-0.16, hero scrim 0.35 to 0.95 top-to-bottom",
+        "blend_mode": "screen for glows, overlay for noise, normal for the scrim"
+      }
+    },
+    "particle_systems": {
+      "enabled": true,
+      "type": "custom",
+      "description": "Wind-driven rain streaks over the monsoon section and the hero's lower third — thin, near-vertical, sheared by the same 210-degree wind bearing the weather engine uses, plus a sparse spray mist near the bottom edge to sell the wet track.",
+      "technology": "Canvas 2D with a fixed-timestep loop, paused by IntersectionObserver when off-screen",
+      "params": {
+        "count": "220 streaks at desktop, 90 on mobile, 0 under prefers-reduced-motion",
+        "shape": "1px-wide tapered line, 14-46px long",
+        "size_range": "1px x 14px to 1.5px x 46px",
+        "movement_pattern": "constant downward velocity with a -12 degree shear and per-particle depth parallax; wraps at the top edge",
+        "color_behavior": "rgba(233,239,245,0.10-0.28), brightest in the middle depth band",
+        "interaction": "none",
+        "spawn_area": "one viewport height above the visible band, full width plus 10% bleed"
+      }
+    },
+    "3d_elements": {
+      "enabled": false,
+      "type": "none",
+      "description": "No live 3D on the page. The depth in this design comes from pre-rendered Blender footage played back through Remotion, which is deliberate: the geometry, materials and lighting already exist at render quality and re-approximating them in WebGL would look worse and cost more.",
+      "technology": "none",
+      "params": {
+        "renderer": "none",
+        "lighting": "none",
+        "camera": "none",
+        "materials": "none",
+        "geometry": "none",
+        "post_processing": [],
+        "interaction_model": "none"
+      }
+    },
+    "shader_effects": {
+      "enabled": false,
+      "type": "none",
+      "description": "No GLSL. The equivalent looks — chromatic aberration, grain, bloom, halation — are achieved with SVG filter primitives (feColorMatrix + feOffset for RGB split, feTurbulence for grain) and CSS blend layers, which composite on the same GPU path without a WebGL context.",
+      "technology": "SVG filters and CSS blend modes standing in for shaders",
+      "params": {
+        "uniforms": "none",
+        "vertex_manipulation": "none",
+        "fragment_output": "none",
+        "noise_type": "fractalNoise via feTurbulence, baseFrequency 0.8, 2 octaves, seed animated per frame",
+        "distortion": "RGB channel offset of 0 to 2.4px driven by composition intensity"
+      }
+    },
+    "scroll_effects": {
+      "parallax": {
+        "enabled": true,
+        "layers": "3",
+        "depth_range": "hero video scales 1.0 to 1.08 and drifts 0 to -60px; section glows drift 0 to -140px; foreground content is fixed",
+        "speed_curve": "linear, scrubbed directly by scroll position via Motion's scroll() so it tracks the wheel exactly"
+      },
+      "scroll_triggered_animations": {
+        "enabled": true,
+        "trigger_points": "element enters at 85% of viewport height, plays once",
+        "animation_type": "fade-up, clip-reveal, counter, draw-SVG",
+        "scrub_behavior": "play-once for entrances; the circuit map racing line and the scroll-progress hairline are scrubbed continuously"
+      },
+      "scroll_morphing": {
+        "enabled": true,
+        "description": "The sticky nav condenses on first scroll — the session pill shrinks to a dot, the bar loses 12px of height and gains a backdrop blur, and the red progress hairline grows across the bottom edge in proportion to document scroll."
+      }
+    },
+    "text_effects": {
+      "type": "split-letter-animate",
+      "description": "The hero display line resolves letter by letter from a 6px downward offset with a brief horizontal RGB split on each glyph as it lands, like a broadcast title keying in. Section headings use a word-level clip reveal. Big statistics count up from zero on entry.",
+      "technology": "Motion (motion.dev) animate() with per-glyph spans; counters driven by a single requestAnimationFrame tween",
+      "params": {
+        "split_strategy": "by-char for the hero, by-word for section headings",
+        "animation_per_unit": "opacity 0 to 1, translateY 6px to 0, text-shadow RGB split 2px to 0",
+        "stagger": "24ms per character, 70ms per word",
+        "effect_style": "broadcast title key-in, no bounce, all glyphs settled within 900ms"
+      }
+    },
+    "cursor_effects": {
+      "enabled": true,
+      "type": "spotlight",
+      "description": "Data panels track the pointer and render a soft red-white radial highlight at its position inside the panel border, so the panel under the cursor reads as lit. Buttons are mildly magnetic, translating up to 3px toward the pointer.",
+      "params": {
+        "shape": "radial gradient, no visible cursor replacement",
+        "size": "420px diameter falloff",
+        "blend_mode": "screen",
+        "trail": "none — the highlight is lerped 0.18 toward the pointer each frame, which reads as weight rather than a trail",
+        "interaction_zone": "the hovered panel's bounding box only; disabled on touch and under prefers-reduced-motion"
+      }
+    },
+    "image_effects": {
+      "type": "rgb-shift",
+      "description": "Every video surface passes through a shared grading pipeline: crushed blacks and lifted contrast, a cool shadow / warm highlight split, a 2.39:1 letterbox, an animated grain plate, a vignette, and an intensity-driven RGB split that peaks on cuts and braking events. Still frames in the film room reveal with a left-to-right clip wipe and gain a 1.5px RGB split on hover.",
+      "technology": "CSS filter chain plus SVG feColorMatrix/feOffset, composited inside Remotion compositions so the same look renders identically in the browser player and in a headless render",
+      "params": {
+        "filter_pipeline": ["contrast(1.16)", "saturate(1.12)", "brightness(0.94)", "hue-rotate(-4deg)", "url(#chromaSplit)"],
+        "hover_transform": "scale(1.02) with the RGB split rising from 0 to 1.5px over 380ms",
+        "reveal_animation": "clip-path inset wipe from the left over 700ms with a 1px red leading edge",
+        "distortion_type": "glitch"
+      }
+    },
+    "glassmorphism_neumorphism": {
+      "enabled": true,
+      "style": "frosted-layers",
+      "params": {
+        "blur_radius": "18px on the sticky nav and the video HUD panels, 28px on the cinema lightbox scrim",
+        "transparency": "rgba(10,14,19,0.62) for nav, rgba(10,14,19,0.44) for HUD panels",
+        "border_treatment": "1px rgba(233,239,245,0.10) with a brighter 1px inset on the top edge only, so the panel looks lit from above",
+        "shadow_type": "single broad soft shadow, no inner shadow",
+        "light_source_angle": "top, 90 degrees — matched to the overcast key light in the footage"
+      }
+    },
+    "canvas_drawings": {
+      "enabled": true,
+      "type": "data-visualization",
+      "description": "Two canvases and a family of SVG charts. The doppler radar canvas animates convective cells, range rings and a sweep line over the circuit. The rain canvas draws the streak particles. Telemetry traces, tyre degradation curves, the wet crossover chart, stint timelines and the elevation profile are drawn as SVG so they stay crisp and inspectable.",
+      "technology": "Canvas 2D for the radar and rain; hand-built inline SVG for every chart, in the self-contained spirit of the lieflat-charts skill (Wire palette, editorial axes)",
+      "params": {
+        "draw_method": "requestAnimationFrame loop for the two canvases; declarative path generation for the SVG charts",
+        "animation_loop": "continuous while visible, suspended by IntersectionObserver, halted under prefers-reduced-motion",
+        "color_scheme": "Wire — near-black ground, #adbdcb axes and labels, #d81f26 primary series, #00a19b secondary series, compound colours for tyre series",
+        "responsiveness": "devicePixelRatio-aware backing store for canvases; SVG uses a fixed viewBox with preserveAspectRatio so it scales without reflowing labels",
+        "interaction": "hover crosshair with a value readout on every chart; click to select a turn on the circuit map; drag on sliders redraws the strategy charts on the same frame"
+      }
+    },
+    "svg_animations": {
+      "enabled": true,
+      "type": "path-draw",
+      "description": "The Sepang circuit map draws itself on entry — the 5.543km centreline strokes on over 1.6s, then the 15 turn markers pop in sequence and the sector arcs fill. The racing-line overlay is scrubbed by scroll. Corner-callout brackets draw their two strokes on hover.",
+      "params": {
+        "animation_method": "stroke-dashoffset animated with Motion, driven by getTotalLength()",
+        "path_morphing": "none",
+        "stroke_animation": "centreline 1600ms ease-out draw; sector arcs 400ms each staggered 120ms; racing line scrubbed 0 to 100% across the section's scroll range",
+        "filter_effects": "a 2px red gaussian glow on the active turn marker and on the leading edge of the drawing stroke"
+      }
+    },
+    "composite_notes": "The stack has a deliberate order and it matters. Bottom to top inside a cinema surface: the Remotion <Video> layer carrying the real Blender render; a colour-grade layer applied as a CSS filter chain on that video element; a bloom layer that is a blurred, screen-blended copy of the grade's highlights approximated with radial gradients rather than a second video element, so only one decoder per composition is ever active; an animated grain plate; a vignette; a 2.39:1 letterbox; then the diegetic HUD (speed, gear, throttle/brake bars, RPM strip, lap clock, corner callouts, mini map) which is real React composited in the same timeline; and finally the non-diegetic title cards. Two constraints shaped this: only one <video> element per visible composition, because two copies of the same file drift out of sync and double the decode cost; and every effect must be a pure function of useCurrentFrame(), so the browser player and a headless Remotion render produce the same pixels. Videos are 1920x1080 at 24fps — onboard 222 frames (9.25s, the hero, looped), pov 486 frames (20.25s), highlight 1440 frames (60s). The 24fps cadence is left alone rather than smoothed; the judder is part of the film look. Known trade-off: the source footage is bright, low-contrast overcast daylight, so the grade does most of the heavy lifting — the crushed blacks are synthesised by the filter chain, not present in the plate, and pushing contrast further starts to band in the sky. The measured palette in design_system.color is intentionally inverted for the UI (footage-bright becomes UI-foreground), so an automated colour-fidelity check against the source frame will and should report large coverage drift; the traceable claim is hue provenance, not coverage parity."
+}
