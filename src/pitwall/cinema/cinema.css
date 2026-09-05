@@ -646,6 +646,7 @@
 .stage__sound-control-wrap {
   position: absolute;
   z-index: 3;
+  z-index: 10;
   right: clamp(16px, 3vw, 42px);
   top: clamp(16px, 3vw, 32px);
   display: inline-flex;
@@ -653,12 +654,14 @@
   gap: 4px;
   min-height: 36px;
   padding: 0 10px 0 0;
+  padding: 0 4px 0 0;
   border: 1px solid rgba(233, 239, 245, 0.32);
   border-radius: 999px;
   background: rgba(4, 7, 10, 0.7);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
   backdrop-filter: blur(10px);
   transition: border-color var(--t-micro), background var(--t-micro);
+  pointer-events: auto;
 }
 
 .stage__sound-control-wrap:hover,
@@ -667,11 +670,17 @@
   background: rgba(7, 25, 20, 0.88);
 }
 
+.stage__sound-control-wrap:hover .stage__sound-control,
+.stage__sound-control-wrap:focus-within .stage__sound-control {
+  color: #d8ffeb;
+}
+
 .stage__sound-control-wrap .stage__sound-control {
   position: static;
   border: none;
   background: transparent;
   box-shadow: none;
+  padding: 0 12px;
 }
 
 .stage__sound-sliderwrap {
@@ -682,13 +691,16 @@
   overflow: hidden;
   pointer-events: none;
   transition: max-width 0.24s var(--ease-out), opacity 0.2s var(--ease-out);
+  transition: max-width 0.24s var(--ease-out), opacity 0.2s var(--ease-out), padding 0.2s var(--ease-out);
 }
 
 .stage__sound-control-wrap:hover .stage__sound-sliderwrap,
 .stage__sound-control-wrap:focus-within .stage__sound-sliderwrap {
   max-width: 80px;
+  max-width: 84px;
   opacity: 1;
   pointer-events: auto;
+  padding-right: 8px;
 }
 
 @media (max-width: 640px) {
