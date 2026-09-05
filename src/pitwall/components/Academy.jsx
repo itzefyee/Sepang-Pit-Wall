@@ -67,6 +67,7 @@ function AccordionBody({ open, id, children }) {
       id={id}
       style={{ overflow: "hidden", height: open ? "auto" : 0 }}
       aria-hidden={!open}
+      {...(!open ? { inert: "" } : {})}
       inert={!open}
     >
       <div ref={innerRef} className="academy__steps">
