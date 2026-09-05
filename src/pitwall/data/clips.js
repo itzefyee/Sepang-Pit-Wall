@@ -19,7 +19,7 @@ export const FPS = telemetry.fps;
 export const CLIPS = {
   onboard: {
     key: "onboard",
-    src: "/sepang_onboard_final.mp4",
+    src: "/assets/vid/sepang_onboard_final.mp4",
     edit: "onboard",
     durationInFrames: telemetry.edits.onboard.totalFrames,
     width: 1920,
@@ -33,7 +33,7 @@ export const CLIPS = {
   },
   pov: {
     key: "pov",
-    src: "/sepang_pov_final.mp4",
+    src: "/assets/vid/sepang_pov_final.mp4",
     edit: "pov",
     durationInFrames: telemetry.edits.pov.totalFrames,
     width: 1920,
@@ -47,7 +47,7 @@ export const CLIPS = {
   },
   highlight: {
     key: "highlight",
-    src: "/sepang_highlight_final.mp4",
+    src: "/assets/vid/sepang_highlight_final.mp4",
     edit: "highlight",
     durationInFrames: telemetry.edits.highlight.totalFrames,
     width: 1920,

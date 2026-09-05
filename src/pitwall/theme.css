@@ -1197,9 +1197,10 @@ tr.is-hero .pos {
   .nav__links { display: none; }
   .nav__burger { display: grid; gap: 5px; margin-left: auto; padding: 8px; border: 1px solid var(--line); border-radius: var(--r-sm); background: transparent; }
   .nav__burger span { display: block; width: 18px; height: 1px; background: var(--ink); }
-  .nav__sheet { position: absolute; top: 100%; left: 0; right: 0; display: grid; gap: 2px; padding: var(--s3) var(--gutter) var(--s4); border-bottom: 1px solid var(--line); background: var(--bg-deep); }
   .nav__sheet { position: absolute; top: 100%; left: 0; right: 0; display: grid; gap: 2px; padding: var(--s3) var(--gutter) var(--s4); border-bottom: 1px solid var(--line); background: var(--bg-deep); will-change: transform, opacity; }
+
   .nav__sheet a { padding: 9px 0; color: var(--ink-3); font: 700 .75rem var(--font-head); letter-spacing: .1em; text-transform: uppercase; }
+
 
   .hero__content { padding-bottom: 124px; }
   .hero__meta > span { display: none; }
