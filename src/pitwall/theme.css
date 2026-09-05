@@ -287,6 +287,7 @@ svg {
 .shell {
   position: relative;
   z-index: 1;
+  padding-top: var(--nav-h);
 }
 
 .wrap {
@@ -997,9 +998,12 @@ tr.is-hero .pos {
    ======================================================================== */
 
 .nav {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 30;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
   height: var(--nav-h);
   background: rgba(5, 8, 11, 0.78);
   border-bottom: 1px solid transparent;
