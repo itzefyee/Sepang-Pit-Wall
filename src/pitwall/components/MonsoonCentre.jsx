@@ -254,6 +254,7 @@ export function MonsoonCentre() {
   const dryingData = useMemo(
     () =>
       DRYING_CURVE.map((v, i) => ({
+        key: `drying-${i + 1}`,
         label: i % 3 === 0 ? String(i + 1) : "",
         value: v,
         colour: v > CLIMATE.abandonThresholdMm ? "#ff5a5f" : v > 1.4 ? "#3498db" : "#00a19b"

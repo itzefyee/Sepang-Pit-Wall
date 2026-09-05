@@ -375,7 +375,7 @@ export function BarChart({
           const active = hover === i;
           return (
             <g
-              key={d.label ?? i}
+              key={d.key ?? `${d.label || "bar"}-${i}`}
               onPointerEnter={() => setHover(i)}
               onPointerLeave={() => setHover(null)}
             >
