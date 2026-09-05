@@ -115,17 +115,22 @@ export function Hero() {
 
       <div className="hero__content wrap">
         <p className="hero__kicker t-overline">
-          <span className="hero__flag" aria-hidden="true" />
+          <img
+            src="/assets/img/malaysia_flag.svg"
+            alt="Flag of Malaysia"
+            className="hero__flag"
+            width="22"
+            height="11"
+            loading="eager"
+            decoding="async"
+          />
           {EVENT.name} · {CIRCUIT.lengthKm} km · {CIRCUIT.turns} turns
         </p>
 
         <SplitTitle text={TITLE} />
 
         <p className="hero__lede">
-          Strategy, learning and simulation for the {EVENT.name} at{" "}
-          {CIRCUIT.short} — built on a circuit reconstructed from survey data, a
-          lap model calibrated to a real pole time, and a monsoon that decides{" "}
-          {UNCERTAINTY.rainSeenPct}% of the races it is asked to run.
+          Live strategy, telemetry, and monsoon simulation for {CIRCUIT.short} — calibrated to pole physics and unpredictable equatorial rain.
         </p>
 
         <div className="hero__cta">

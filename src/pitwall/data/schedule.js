@@ -18,7 +18,7 @@ export const EVENT = {
   timezone: "Malaysia time, UTC+8",
   laps: 56,
   disclaimer:
-    "Target event for this simulation. Sepang does not appear on the published 2026 championship calendar; the weekend is laid out in the standard format at the circuit's historical 15:00 local start."
+    "Sepang simulation target event at historical 15:00 local start."
 };
 
 export const SESSIONS = [
@@ -69,22 +69,22 @@ export const BRIEF = [
   {
     heading: "The plan on paper",
     body:
-      "Medium 20, medium 20, soft 16. That is the fastest of 1146 feasible dry plans and it wins by 1.64 s over the next best, which is the same three stints in a different order. The margin is small enough that track position decides it, not tyres."
+      "M20–M20–S16 is the quickest dry strategy, edging alternate orders by just 1.64 s. At this margin, track position beats tyre delta."
   },
   {
     heading: "The plan in reality",
     body:
-      "Rain appears in 94% of simulated races here, and each one adds an average 3.34 stops the plan did not contain. The median race runs nearly ten minutes longer than the dry optimum. Plan for two stops, be ready for five."
+      "Rain hits 94% of races, adding ~3.3 extra pit stops and 10 minutes to race time. Plan for 2 stops, prepare for 5."
   },
   {
     heading: "The corner that decides your race",
     body:
-      "Turn 5. A 104 m radius left held at 245 kph loads the right-front for over three seconds, and Turn 11 reloads it before it has cooled. On 54 C asphalt that is what ends a stint here — carcass temperature, not tread depth."
+      "Turn 5 loads the right-front for 3+ seconds at 245 kph, with Turn 11 reloading before it cools. Thermal blistering kills stints."
   },
   {
     heading: "The number to watch",
     body:
-      "1.4 mm of standing water. Below it, slicks. Above it, intermediates, and the penalty for being wrong climbs to nearly ten seconds a lap. Sector 2 crosses that line several minutes before the pit straight does."
+      "1.4 mm standing water crossover. Below is slick, above is intermediate. The wrong tyre costs ~10 s/lap, and Sector 2 floods first."
   }
 ];
 

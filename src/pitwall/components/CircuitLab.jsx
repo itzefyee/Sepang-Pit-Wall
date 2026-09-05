@@ -295,6 +295,7 @@ function TurnDetail({ turn }) {
 export function CircuitLab() {
   const [active, setActive] = useState(1);
   const [overlay, setOverlay] = useState("sectors");
+  const [viewMode, setViewMode] = useState("map");
   const turn = TURNS.find((t) => t.id === active) ?? TURNS[0];
 
   return (
@@ -302,50 +303,98 @@ export function CircuitLab() {
       id="circuit"
       no="02 / Circuit intelligence"
       title="Fifteen corners, one of which decides everything"
-      lede="Click a corner on the map, or step through them. Radii, heading changes and classifications come out of the survey; apex speeds, braking points and the coaching notes come from the corner model."
+      lede="Select a corner to inspect survey radii, braking points, apex speeds, and tyre load demands."
       aside={
-        <Segmented
-          label="Map overlay"
-          value={overlay}
-          onChange={setOverlay}
-          options={[
-            { value: "sectors", label: "Sectors" },
-            { value: "drs", label: "DRS" },
-            { value: "clean", label: "Clean" }
-          ]}
-        />
+        <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+          <Segmented
+            label="View perspective"
+            value={viewMode}
+            onChange={setViewMode}
+            options={[
+              { value: "map", label: "2D Survey" },
+              { value: "aerial", label: "3D Aerial" },
+              { value: "pit", label: "3D Pits" }
+            ]}
+          />
+          {viewMode === "map" ? (
+            <Segmented
+              label="Map overlay"
+              value={overlay}
+              onChange={setOverlay}
+              options={[
+                { value: "sectors", label: "Sectors" },
+                { value: "drs", label: "DRS" },
+                { value: "clean", label: "Clean" }
+              ]}
+            />
+          ) : null}
+        </div>
       }
     >
       <div className="circuit">
         <Reveal className="circuit__map">
           <Panel
-            title="Surveyed layout"
+            title={viewMode === "map" ? "Surveyed layout" : viewMode === "aerial" ? "3D Reconstructed Loop" : "3D Pit Straight & Gantry"}
             meta={`${CIRCUIT.lengthKm} km · ${CIRCUIT.direction}`}
-            note={`Geometry: ${GEO.source}. Survey loop measured ${CIRCUIT.surveyLengthM} m and was scaled ${GEO.scaleApplied} to the homologated ${CIRCUIT.lengthM} m, a ${CIRCUIT.surveyErrorPct}% correction.`}
+            note={viewMode === "map"
+              ? `GPS-surveyed loop scaled to homologated ${CIRCUIT.lengthM} m.`
+              : "Physics-based 3D render from Blender camera rigs."}
           >
-            <TrackMap active={active} onPick={setActive} overlay={overlay} />
-            <div className="circuit__legend">
-              {overlay === "sectors"
-                ? SECTORS.map((s) => (
-                    <span className="chart__key" key={s.id}>
-                      <i style={{ background: SECTOR_COLOURS[s.id] }} />
-                      {s.name} · {s.lengthM} m
-                    </span>
-                  ))
-                : null}
-              {overlay === "drs"
-                ? DRS_ZONES.map((z) => (
-                    <span className="chart__key" key={z.id}>
-                      <i style={{ background: "#2fbf71" }} />
-                      {z.name} · {z.lengthM} m · worth {z.worthS.toFixed(2)} s
-                    </span>
-                  ))
-                : null}
-              <span className="chart__key">
-                <i style={{ background: "rgba(173,189,203,0.5)" }} />
-                Pit lane · {CIRCUIT.pitOffsetM} m offset
-              </span>
-            </div>
+            {viewMode === "map" ? (
+              <>
+                <TrackMap active={active} onPick={setActive} overlay={overlay} />
+                <div className="circuit__legend">
+                  {overlay === "sectors"
+                    ? SECTORS.map((s) => (
+                        <span className="chart__key" key={s.id}>
+                          <i style={{ background: SECTOR_COLOURS[s.id] }} />
+                          {s.name} · {s.lengthM} m
+                        </span>
+                      ))
+                    : null}
+                  {overlay === "drs"
+                    ? DRS_ZONES.map((z) => (
+                        <span className="chart__key" key={z.id}>
+                          <i style={{ background: "#2fbf71" }} />
+                          {z.name} · {z.lengthM} m · worth {z.worthS.toFixed(2)} s
+                        </span>
+                      ))
+                    : null}
+                  <span className="chart__key">
+                    <i style={{ background: "rgba(173,189,203,0.5)" }} />
+                    Pit lane · {CIRCUIT.pitOffsetM} m offset
+                  </span>
+                </div>
+              </>
+            ) : viewMode === "aerial" ? (
+              <div className="circuit__3dview">
+                <img
+                  src="/assets/img/sepang_shots/aerial.png"
+                  alt="3D Reconstructed Circuit Aerial View"
+                  className="circuit__3dimg"
+                />
+                <div className="circuit__3dcaption">
+                  <span className="t-overline hot">Aerial Survey (Z: 850m)</span>
+                  <p className="t-small dim" style={{ margin: "3px 0 0" }}>
+                    Twin straights, Turn 1 hairpin, and Turn 15 hairpin. Homologated 5,543 m loop.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="circuit__3dview">
+                <img
+                  src="/assets/img/sepang_shots/pit_overview.png"
+                  alt="3D Sepang Pit Complex and Grandstands"
+                  className="circuit__3dimg"
+                />
+                <div className="circuit__3dcaption">
+                  <span className="t-overline hot">Pit & Grandstand Complex</span>
+                  <p className="t-small dim" style={{ margin: "3px 0 0" }}>
+                    Twin grandstands, pit garages, start gantry, and DRS Zone 1.
+                  </p>
+                </div>
+              </div>
+            )}
           </Panel>
         </Reveal>
 

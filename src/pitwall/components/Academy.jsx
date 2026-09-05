@@ -112,7 +112,7 @@ export function Academy() {
       id="academy"
       no="08 / Academy"
       title="Learn the call before you make it"
-      lede="Start with the mechanics of a race, then move through a strategist's decision rules to the assumptions behind the model. Every lesson uses the numbers on this page."
+      lede="Interactive race strategy guides covering tyre degradation, undercut math, and monsoon decision trees."
       aside={<Pill tone="teal">3 guided tracks</Pill>}
     >
       <div className="academy__tracks">

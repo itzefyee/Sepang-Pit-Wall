@@ -112,6 +112,11 @@ export function Nav() {
       <div className="nav__inner">
         <a className="nav__brand" href="#top">
           <span className="nav__mark" aria-hidden="true" />
+          <img
+            src="/assets/img/sepang_logo.jpg"
+            alt="Sepang Pit Wall Logo"
+            className="nav__logo"
+          />
           <span className="nav__brandtext">
             <strong>Sepang</strong> Pit Wall
           </span>

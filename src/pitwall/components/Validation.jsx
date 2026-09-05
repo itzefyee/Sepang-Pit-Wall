@@ -14,7 +14,7 @@ export function Validation() {
       id="model"
       no="09 / The model"
       title="Show the receipts"
-      lede="Validation is kept alongside the strategy recommendation, not hidden behind it. The historical scenarios receive only information available before the flag; the outcome belongs to the simulation."
+      lede="Simulation model verified against historical Grand Prix outcomes and empirical telemetry benchmarks."
       aside={<Pill tone="pass">Measured outputs</Pill>}
     >
       <div className="grid cols-3 validation__scoreboard">

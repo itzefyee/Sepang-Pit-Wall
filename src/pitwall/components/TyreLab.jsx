@@ -94,9 +94,54 @@ export function TyreLab() {
       id="tyres"
       no="04 / Tyre lab"
       title="On 54 degree asphalt, tyres are the whole argument"
-      lede="Degradation here is thermal, not mechanical. The right-front takes sustained load through Turn 5 and gets reloaded at Turn 11 before it has cooled, and carcass temperature past the blister threshold is what ends a stint."
+      lede="Thermal degradation rules Sepang. High lateral loads in Turns 5 and 11 drive carcass temperatures past the blister threshold."
       aside={<Pill tone="warn">Track {THERMAL.trackTempC} °C</Pill>}
     >
+      {/* Visual Tyre Bay Command Deck */}
+      <Reveal delay={20}>
+        <div className="visual-deck" style={{ marginBottom: "var(--s6)" }}>
+          <div className="visual-deck__media" style={{ maxHeight: "360px" }}>
+            <img
+              src="/assets/img/tyre_garage.jpg"
+              alt="Ferrari F1 Pit Garage Tyre Bay with Heated Blankets"
+              className="visual-deck__img"
+              loading="lazy"
+            />
+            <div className="visual-deck__scrim" />
+            <div className="visual-deck__content">
+              <div className="visual-deck__badges">
+                <Pill tone="red">Pirelli Allocation</Pill>
+                <Pill tone="warn">Electric Blankets: 100°C Active</Pill>
+                <Pill tone="teal">Sepang High Abrasion Surface</Pill>
+              </div>
+              <h3 className="visual-deck__title">Tyre Thermal Management · The Right-Front Gauntlet</h3>
+              <p className="visual-deck__lede">
+                Asphalt surface reaches 54°C under the equatorial sun. High sustained lateral g-forces through the double-apex Turn 5–6 quickly overheat the shoulder ribs, making tyre conservation the defining factor of race pace.
+                Track temps hit 54°C. Severe lateral loading through Turns 5–6 rapidly overheats the shoulder ribs, making thermal management vital.
+              </p>
+              <div className="visual-deck__stats">
+                <div className="visual-stat">
+                  <span className="visual-stat__label">Peak Track Temp</span>
+                  <span className="visual-stat__value">{THERMAL.trackTempC}°C</span>
+                </div>
+                <div className="visual-stat">
+                  <span className="visual-stat__label">Soft (C4) Cliff</span>
+                  <span className="visual-stat__value">{COMPOUNDS.soft.cliffLap} Laps</span>
+                </div>
+                <div className="visual-stat">
+                  <span className="visual-stat__label">Medium (C3) Cliff</span>
+                  <span className="visual-stat__value">{COMPOUNDS.medium.cliffLap} Laps</span>
+                </div>
+                <div className="visual-stat">
+                  <span className="visual-stat__label">Hard (C2) Cliff</span>
+                  <span className="visual-stat__value">{COMPOUNDS.hard.cliffLap} Laps</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
       <div className="grid cols-auto" style={{ marginBottom: "var(--s6)" }}>
         {Object.values(COMPOUNDS).map((c, i) => (
           <Reveal key={c.key} delay={i * 50}>

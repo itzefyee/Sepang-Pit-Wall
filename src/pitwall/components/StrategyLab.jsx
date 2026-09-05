@@ -108,7 +108,7 @@ export function StrategyLab() {
       id="strategy"
       no="03 / Strategy lab"
       title="Price every plan, then argue with it"
-      lede="Total race time is one number: every lap's pace, plus the pit loss for every stop. Set the race up on the left and the search reprices all feasible plans immediately."
+      lede="Adjust race laps, pit delta, and compound allocation to reprice all feasible stint strategies in real time."
       aside={<Pill tone="teal">{result.evaluated.toLocaleString("en-GB")} feasible plans</Pill>}
     >
       <div className="lab">

@@ -6,6 +6,11 @@ export function Footer() {
       <div className="wrap footer__inner">
         <div className="footer__brand">
           <span className="nav__mark" aria-hidden="true" />
+          <img
+            src="/assets/img/sepang_logo.jpg"
+            alt="Sepang Pit Wall Logo"
+            className="nav__logo"
+          />
           <div>
             <strong>Sepang Pit Wall</strong>
             <p>Strategy, learning and simulation.</p>

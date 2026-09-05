@@ -266,7 +266,7 @@ export function MonsoonCentre() {
       id="monsoon"
       no="05 / Monsoon centre"
       title="The weather is the strategy"
-      lede="Rain adds depth, run-off removes a share of it every lap, so each intensity settles at a bounded equilibrium instead of accumulating forever. Sector 2 is the highest and worst-drained part of the lap, so it floods first and clears last."
+      lede="Tropical rain rapidly floods the circuit before drainage reaches equilibrium. Poorly drained Sector 2 floods first and clears last."
       aside={
         <Segmented
           label="Weather state"
@@ -279,6 +279,50 @@ export function MonsoonCentre() {
         />
       }
     >
+      {/* Visual Monsoon Storm Deck */}
+      <Reveal delay={20}>
+        <div className="visual-deck" style={{ marginBottom: "var(--s6)" }}>
+          <div className="visual-deck__media" style={{ maxHeight: "380px" }}>
+            <img
+              src="/assets/img/monsoon_action.jpg"
+              alt="Ferrari F1 car in torrential Sepang monsoon storm"
+              className="visual-deck__img"
+              loading="lazy"
+            />
+            <div className="visual-deck__scrim" />
+            <div className="visual-deck__content">
+              <div className="visual-deck__badges">
+                <Pill tone="fail" live>Tropical Squall Live</Pill>
+                <Pill tone="teal">Doppler Convective Radar</Pill>
+                <Pill tone="warn">Aquaplaning Critical: {depth.meanMm.toFixed(2)} mm</Pill>
+              </div>
+              <h3 className="visual-deck__title">Equatorial Monsoon · Rapid Saturation Model</h3>
+              <p className="visual-deck__lede">
+                Convective squalls overwhelm tyre tread dispersion in 90 seconds, producing heavy standing water through Turns 7–9.
+              </p>
+              <div className="visual-deck__stats">
+                <div className="visual-stat">
+                  <span className="visual-stat__label">Current Mean Depth</span>
+                  <span className="visual-stat__value">{depth.meanMm.toFixed(2)} mm</span>
+                </div>
+                <div className="visual-stat">
+                  <span className="visual-stat__label">Classification</span>
+                  <span className="visual-stat__value">{klass.name}</span>
+                </div>
+                <div className="visual-stat">
+                  <span className="visual-stat__label">Optimal Tyre</span>
+                  <span className="visual-stat__value">{klass.best}</span>
+                </div>
+                <div className="visual-stat">
+                  <span className="visual-stat__label">Abandon Threshold</span>
+                  <span className="visual-stat__value">{CLIMATE.abandonThresholdMm} mm</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
       <div className="monsoon">
         <Reveal className="monsoon__radar">
           <Panel

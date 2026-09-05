@@ -103,7 +103,10 @@ lerna-debug.log*
 *.sw?
 
 # AI / IDE Agent Metadata
+# AI / IDE Agent Metadata & Skills
 .kiro/
+.agent/
+.agents/
 
 # ------------------------------------------------------------------------------
 # Operating System Files
@@ -118,3 +121,5 @@ Thumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 
+# Test captures and temporary recordings
+recordings/

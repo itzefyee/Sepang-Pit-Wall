@@ -158,6 +158,28 @@
   align-items: center;
 }
 
+@media (max-width: 640px) {
+  .stage__row {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  .stage__scrubwrap {
+    order: -1;
+    width: 100%;
+    flex: 1 0 100%;
+    min-width: 0;
+    margin-bottom: 2px;
+  }
+  .stage__clock {
+    font-size: 0.6875rem;
+    margin-left: auto;
+  }
+  .stage__cuts {
+    padding: 0 12px 10px;
+  }
+}
+
 .stage__scrub {
   width: 100%;
   position: relative;

@@ -56,9 +56,83 @@ export function RaceBrief() {
       id="brief"
       no="01 / Race brief"
       title="What this weekend actually asks of you"
-      lede="Sepang is two problems stacked on top of each other: 54 degree asphalt that eats the right-front, and a monsoon that arrives most afternoons. The plan on paper and the plan you race are rarely the same document."
+      lede="54°C asphalt destroys the right-front, while afternoon squalls rewrite the strategy in seconds."
       aside={<Pill tone="red" live>Target event</Pill>}
     >
+      {/* Live Track Condition Telemetry Ribbon */}
+      <div className="telemetry-bar reveal">
+        <div className="telemetry-bar__item">
+          <span className="dot dot--live" style={{ color: "var(--green)" }} />
+          <span className="telemetry-bar__label">Track Status:</span>
+          <span className="telemetry-bar__value" style={{ color: "var(--green)" }}>GREEN FLAG</span>
+        </div>
+        <div className="telemetry-bar__sep" />
+        <div className="telemetry-bar__item">
+          <span className="telemetry-bar__label">Asphalt Temp:</span>
+          <span className="telemetry-bar__value hot">54.0°C</span>
+        </div>
+        <div className="telemetry-bar__sep" />
+        <div className="telemetry-bar__item">
+          <span className="telemetry-bar__label">Ambient Air:</span>
+          <span className="telemetry-bar__value">33.2°C</span>
+        </div>
+        <div className="telemetry-bar__sep" />
+        <div className="telemetry-bar__item">
+          <span className="telemetry-bar__label">Humidity:</span>
+          <span className="telemetry-bar__value">84% (Tropical)</span>
+        </div>
+        <div className="telemetry-bar__sep" />
+        <div className="telemetry-bar__item">
+          <span className="telemetry-bar__label">Squall Risk:</span>
+          <span className="telemetry-bar__value hot">78% Probability</span>
+        </div>
+      </div>
+
+      {/* Visual Command Deck */}
+      <Reveal delay={40}>
+        <div className="visual-deck">
+          <div className="visual-deck__media">
+            <img
+              src="/assets/img/pitwall_command.jpg"
+              alt="Ferrari Pit Wall Command Centre at Sepang"
+              className="visual-deck__img"
+              loading="lazy"
+            />
+            <div className="visual-deck__scrim" />
+            <div className="visual-deck__content">
+              <div className="visual-deck__badges">
+                <Pill tone="red" live>Live Command Feed</Pill>
+                <Pill tone="teal">Sepang Pit Wall Unit</Pill>
+                <Pill tone="warn">Tyre Thermal Critical</Pill>
+              </div>
+              <h3 className="visual-deck__title">Mission Control · Strategy Decision Matrix</h3>
+              <p className="visual-deck__lede">
+                Real-time telemetry telemetry streams link chassis #55 & #16 to the trackside engineers. High lateral energy through Turns 5-8 combined with extreme equatorial track temperatures demand disciplined stint execution.
+                Live telemetry links chassis #55 & #16. Extreme heat and lateral loads through Turns 5–8 demand disciplined tyre management.
+              </p>
+              <div className="visual-deck__stats">
+                <div className="visual-stat">
+                  <span className="visual-stat__label">Circuit Length</span>
+                  <span className="visual-stat__value">{CIRCUIT.lengthKm} km</span>
+                </div>
+                <div className="visual-stat">
+                  <span className="visual-stat__label">Total Turns</span>
+                  <span className="visual-stat__value">{CIRCUIT.turns}</span>
+                </div>
+                <div className="visual-stat">
+                  <span className="visual-stat__label">Elevation Range</span>
+                  <span className="visual-stat__value">{CIRCUIT.elevationSpanM} m</span>
+                </div>
+                <div className="visual-stat">
+                  <span className="visual-stat__label">Race Distance</span>
+                  <span className="visual-stat__value">{CIRCUIT.raceDistanceKm} km</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
       <div className="grid cols-4" style={{ marginBottom: "var(--s6)" }}>
         <Reveal delay={0}>
           <Stat
