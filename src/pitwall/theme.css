@@ -596,6 +596,8 @@ svg {
 
 .btn:active {
   transform: translateY(0);
+  transform: scale(0.97) translateY(0);
+  box-shadow: none;
 }
 
 .btn--ghost {
@@ -631,10 +633,26 @@ svg {
   background: var(--inset);
   border: 1px solid var(--line);
   border-radius: var(--r-md);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  position: relative;
+}
+
+/* the spring-driven sliding indicator */
+.seg__indicator {
+  position: absolute;
+  top: 3px;
+  bottom: 3px;
+  border-radius: var(--r-sm);
+  background: var(--red);
+  pointer-events: none;
+  z-index: 0;
+  left: 0;
+  width: 0;
 }
 
 .seg__b {
+  position: relative;
+  z-index: 1;
   padding: 7px 13px;
   border: 0;
   border-radius: var(--r-sm);
@@ -646,18 +664,16 @@ svg {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background var(--t-micro), color var(--t-micro);
+  transition: color var(--t-micro);
   white-space: nowrap;
 }
 
 .seg__b:hover {
   color: var(--ink);
-  background: rgba(173, 189, 203, 0.06);
 }
 
 .seg__b[aria-pressed="true"],
 .seg__b[aria-selected="true"] {
-  background: var(--red);
   color: #fff;
 }
 
@@ -891,17 +907,14 @@ tr.is-hero .pos {
 .reveal {
   opacity: 0;
   transform: translateY(18px);
-  clip-path: inset(0 100% 0 0);
   transition: opacity var(--t-macro) var(--ease-out),
-    transform var(--t-macro) var(--ease-out),
-    clip-path var(--t-macro) var(--ease-out);
+    transform var(--t-macro) var(--ease-out);
   transition-delay: var(--delay, 0ms);
 }
 
 .reveal.in {
   opacity: 1;
   transform: none;
-  clip-path: inset(0 0 0 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -911,7 +924,6 @@ tr.is-hero .pos {
   .reveal {
     opacity: 1;
     transform: none;
-    clip-path: none;
     transition: none;
   }
   .dot--live {
@@ -1093,6 +1105,10 @@ tr.is-hero .pos {
 
 .tyrecard { display: grid; gap: var(--s4); padding: var(--s4); border: 1px solid var(--line); border-top: 3px solid var(--tyre, var(--red)); border-radius: var(--r-md); background: var(--card); cursor: pointer; text-align: left; color: inherit; transition: transform var(--t-micro), border-color var(--t-micro); }
 .tyrecard:hover, .tyrecard[data-active="true"] { transform: translateY(-2px); border-color: rgba(233,239,245,.3); }
+.tyrecard { display: grid; gap: var(--s4); padding: var(--s4); border: 1px solid var(--line); border-top: 3px solid var(--tyre, var(--red)); border-radius: var(--r-md); background: var(--card); cursor: pointer; text-align: left; color: inherit; transition: transform var(--t-micro), border-color var(--t-micro), box-shadow var(--t-micro); }
+.tyrecard:hover { transform: translateY(-2px); border-color: rgba(233,239,245,.22); }
+/* Selected: settle at ground level — the card is chosen, not floating */
+.tyrecard[data-active="true"] { transform: translateY(0); border-color: rgba(233,239,245,.38); box-shadow: 0 0 0 1px rgba(233,239,245,.12), var(--e-low); }
 .tyrecard__top, .tyrecard__nums { display: flex; justify-content: space-between; gap: var(--s3); }
 .tyrecard__nums { display: grid; grid-template-columns: repeat(3,1fr); }
 .tyrecard__nums span { display: grid; gap: 3px; }
@@ -1182,7 +1198,9 @@ tr.is-hero .pos {
   .nav__burger { display: grid; gap: 5px; margin-left: auto; padding: 8px; border: 1px solid var(--line); border-radius: var(--r-sm); background: transparent; }
   .nav__burger span { display: block; width: 18px; height: 1px; background: var(--ink); }
   .nav__sheet { position: absolute; top: 100%; left: 0; right: 0; display: grid; gap: 2px; padding: var(--s3) var(--gutter) var(--s4); border-bottom: 1px solid var(--line); background: var(--bg-deep); }
+  .nav__sheet { position: absolute; top: 100%; left: 0; right: 0; display: grid; gap: 2px; padding: var(--s3) var(--gutter) var(--s4); border-bottom: 1px solid var(--line); background: var(--bg-deep); will-change: transform, opacity; }
   .nav__sheet a { padding: 9px 0; color: var(--ink-3); font: 700 .75rem var(--font-head); letter-spacing: .1em; text-transform: uppercase; }
+
   .hero__content { padding-bottom: 124px; }
   .hero__meta > span { display: none; }
   .hero__meta { justify-content: flex-end; }

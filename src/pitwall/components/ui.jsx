@@ -2,8 +2,11 @@
  * UI primitives. Presentation only — no data, no fetching.
  */
 
+import { useEffect, useRef } from "react";
+import { animate } from "motion";
+
 import { COMPOUNDS } from "../data/tyres.js";
-import { useCountUp, useReveal, useSpotlight } from "../hooks.js";
+import { useCountUp, usePrefersReducedMotion, useReveal, useSpotlight } from "../hooks.js";
 
 export function Section({ id, no, title, lede, aside, children, className = "" }) {
   const ref = useReveal();
@@ -129,9 +132,62 @@ export function Field({ label, value, min, max, step = 1, onChange, hint, disabl
   );
 }
 
+/**
+ * Segmented control with a spring-driven sliding indicator.
+ *
+ * The indicator is an absolutely-positioned element whose left/width track the
+ * active button. Motion's spring (slight bounce) makes it feel like something
+ * is physically sliding — the same feel as UIKit's UISegmentedControl.
+ * No bounce on the first render (initialRender ref prevents it snapping in).
+ */
 export function Segmented({ options, value, onChange, label }) {
+  const containerRef = useRef(null);
+  const indicatorRef = useRef(null);
+  const firstRender = useRef(true);
+  const animRef = useRef(null);
+  const reduced = usePrefersReducedMotion();
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const indicator = indicatorRef.current;
+    if (!container || !indicator) return;
+
+    const activeBtn = container.querySelector("[aria-pressed='true']");
+    if (!activeBtn) return;
+
+    const cr = container.getBoundingClientRect();
+    const br = activeBtn.getBoundingClientRect();
+    const left = br.left - cr.left - 3; // 3px = container padding
+    const width = br.width;
+
+    // First render: snap into position without animation.
+    if (firstRender.current || reduced) {
+      indicator.style.left = `${left}px`;
+      indicator.style.width = `${width}px`;
+      firstRender.current = false;
+      return;
+    }
+
+    animRef.current?.stop?.();
+    animRef.current = animate(
+      indicator,
+      { left: `${left}px`, width: `${width}px` },
+      { type: "spring", bounce: 0.15, duration: 0.3 }
+    );
+
+    return () => animRef.current?.stop?.();
+  }, [value, reduced]);
+
   return (
-    <div className="seg" role="group" aria-label={label}>
+    <div
+      ref={containerRef}
+      className="seg"
+      role="group"
+      aria-label={label}
+      style={{ position: "relative" }}
+    >
+      {/* sliding indicator rendered first so it sits below the buttons */}
+      <div ref={indicatorRef} className="seg__indicator" aria-hidden="true" />
       {options.map((o) => (
         <button
           key={o.value}
