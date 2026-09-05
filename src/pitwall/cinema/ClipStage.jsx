@@ -140,7 +140,8 @@ export function ClipStage({
   fill = false,
   soundControl = false,
   soundLabel = "Sound",
-  eager = false
+  eager = false,
+  lightweight = false
 }) {
   const clip = CLIPS[clipKey];
   const uid = useMemo(() => `cine${(uidSeq += 1)}`, []);
@@ -181,14 +182,16 @@ export function ClipStage({
       showHud,
       showTitles,
       letterbox: isFullscreen ? letterbox : false,
-      uid
+      uid,
+      lightweight
     }),
-    [clipKey, variant, showHud, showTitles, letterbox, isFullscreen, uid]
+    [clipKey, variant, showHud, showTitles, letterbox, isFullscreen, uid, lightweight]
   );
 
   /* --- lazy mounting: activate player when within 350px of viewport or clicked --- */
+  /* On mobile (lightweight), skip IO auto-activation — require explicit tap. */
   useEffect(() => {
-    if (eager || hasActivated) return;
+    if (eager || hasActivated || lightweight) return;
     const host = hostRef.current;
     if (!host) return;
     const observer = new IntersectionObserver(
@@ -202,7 +205,28 @@ export function ClipStage({
     );
     observer.observe(host);
     return () => observer.disconnect();
-  }, [eager, hasActivated]);
+  }, [eager, hasActivated, lightweight]);
+
+  /* --- mobile one-at-a-time: when a lightweight clip activates, unmount others --- */
+  useEffect(() => {
+    if (!lightweight) return;
+    const onDemand = (e) => {
+      if (e.detail?.uid !== uid && hasActivated) {
+        setHasActivated(false);
+        setPlaying(false);
+        setFrame(0);
+      }
+    };
+    window.addEventListener("pitwall:videodemand", onDemand);
+    return () => window.removeEventListener("pitwall:videodemand", onDemand);
+  }, [lightweight, uid, hasActivated]);
+
+  /* Broadcast demand when this lightweight clip activates */
+  useEffect(() => {
+    if (lightweight && hasActivated) {
+      window.dispatchEvent(new CustomEvent("pitwall:videodemand", { detail: { uid } }));
+    }
+  }, [lightweight, hasActivated, uid]);
 
   /* --- global playback coordinator: only 1 video decodes/plays at a time on mobile --- */
   useEffect(() => {

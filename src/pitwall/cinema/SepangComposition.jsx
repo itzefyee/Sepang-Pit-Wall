@@ -95,7 +95,8 @@ export function SepangComposition({
   showHud = true,
   showTitles = true,
   letterbox = true,
-  uid = "cine"
+  uid = "cine",
+  lightweight = false
 }) {
   const frame = useCurrentFrame();
   const { fps, width, height, durationInFrames } = useVideoConfig();
@@ -113,7 +114,7 @@ export function SepangComposition({
   const speed = speedIntensity(sample.speedKph);
 
   const chromaIdx = chromaBucket(impact * 0.95 + brake * 0.75);
-  const chromaId = chromaIdx > 0 ? `${uid}-chroma-${chromaIdx}` : null;
+  const chromaId = lightweight ? null : (chromaIdx > 0 ? `${uid}-chroma-${chromaIdx}` : null);
 
   const extraContrast = impact * 0.18 + brake * 0.1;
   const bloom = clamp(look.bloom + speed * 0.18 + impact * 0.14);
@@ -132,7 +133,7 @@ export function SepangComposition({
 
   return (
     <AbsoluteFill style={{ background: "#03060a", overflow: "hidden" }}>
-      <ChromaDefs uid={uid} />
+      {!lightweight && <ChromaDefs uid={uid} />}
 
       {/* the plate */}
       <AbsoluteFill
@@ -156,11 +157,11 @@ export function SepangComposition({
         />
       </AbsoluteFill>
 
-      <BloomLayer amount={bloom} />
+      {!lightweight && <BloomLayer amount={bloom} />}
       <SplitToneLayer look={look} />
-      <RainSheenLayer storm={sample.storm} frame={frame} />
-      <SpeedStreakLayer intensity={speed * 0.85} frame={frame} />
-      <GrainLayer amount={grain} frame={frame} />
+      {!lightweight && <RainSheenLayer storm={sample.storm} frame={frame} />}
+      {!lightweight && <SpeedStreakLayer intensity={speed * 0.85} frame={frame} />}
+      {!lightweight && <GrainLayer amount={grain} frame={frame} />}
       <VignetteLayer amount={look.vignette} />
 
       {/* a scrim along the bottom so the HUD always has something to sit on */}

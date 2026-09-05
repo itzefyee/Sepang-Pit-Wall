@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CLIPS, CLIP_ORDER, clipStats } from "../data/clips.js";
 import { ClipStage } from "../cinema/ClipStage.jsx";
 import { Pill, Reveal, Section } from "./ui.jsx";
@@ -60,7 +60,7 @@ function ClipMeta({ clip }) {
   );
 }
 
-function FilmCard({ clipKey, featured = false }) {
+function FilmCard({ clipKey, featured = false, lightweight = false }) {
   const clip = CLIPS[clipKey];
   return (
     <article className={`film__card ${featured ? "film__card--featured" : ""}`}>
@@ -75,8 +75,9 @@ function FilmCard({ clipKey, featured = false }) {
       <ClipStage
         clipKey={clipKey}
         variant={featured ? "feature" : "compact"}
-        autoPlay={featured}
+        autoPlay={featured && !lightweight}
         showTitles={!featured}
+        lightweight={lightweight}
       />
     </article>
   );
@@ -84,6 +85,16 @@ function FilmCard({ clipKey, featured = false }) {
 
 export function FilmRoom() {
   const [activeShot, setActiveShot] = useState(null);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("(max-width: 768px)").matches
+  );
+
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 768px)");
+    const onChange = (e) => setIsMobile(e.matches);
+    mql.addEventListener("change", onChange);
+    return () => mql.removeEventListener("change", onChange);
+  }, []);
 
   return (
     <Section
@@ -94,12 +105,12 @@ export function FilmRoom() {
       aside={<Pill tone="red">24-frame telemetry</Pill>}
     >
       <Reveal>
-        <FilmCard clipKey={CLIP_ORDER[2]} featured />
+        <FilmCard clipKey={CLIP_ORDER[2]} featured lightweight={isMobile} />
       </Reveal>
       <div className="film__grid">
         {CLIP_ORDER.slice(0, 2).map((clipKey, index) => (
           <Reveal key={clipKey} delay={(index + 1) * 90}>
-            <FilmCard clipKey={clipKey} />
+            <FilmCard clipKey={clipKey} lightweight={isMobile} />
           </Reveal>
         ))}
       </div>
