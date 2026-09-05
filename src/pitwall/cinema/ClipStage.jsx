@@ -139,7 +139,8 @@ export function ClipStage({
   className = "",
   fill = false,
   soundControl = false,
-  soundLabel = "Sound"
+  soundLabel = "Sound",
+  eager = false
 }) {
   const clip = CLIPS[clipKey];
   const uid = useMemo(() => `cine${(uidSeq += 1)}`, []);
@@ -147,6 +148,7 @@ export function ClipStage({
   const hostRef = useRef(null);
   const reduced = usePrefersReducedMotion();
 
+  const [hasActivated, setHasActivated] = useState(eager);
   const [frame, setFrame] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
@@ -184,15 +186,51 @@ export function ClipStage({
     [clipKey, variant, showHud, showTitles, letterbox, isFullscreen, uid]
   );
 
+  /* --- lazy mounting: activate player when within 350px of viewport or clicked --- */
+  useEffect(() => {
+    if (eager || hasActivated) return;
+    const host = hostRef.current;
+    if (!host) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasActivated(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "350px 0px 350px 0px" }
+    );
+    observer.observe(host);
+    return () => observer.disconnect();
+  }, [eager, hasActivated]);
+
+  /* --- global playback coordinator: only 1 video decodes/plays at a time on mobile --- */
+  useEffect(() => {
+    const onOtherPlay = (e) => {
+      if (e.detail?.uid !== uid) {
+        const p = playerRef.current;
+        if (p && p.isPlaying()) {
+          p.pause();
+        }
+      }
+    };
+    window.addEventListener("pitwall:videoplay", onOtherPlay);
+    return () => window.removeEventListener("pitwall:videoplay", onOtherPlay);
+  }, [uid]);
+
   /* --- frame + transport state --------------------------------------- */
   useEffect(() => {
+    if (!hasActivated) return;
     const p = playerRef.current;
     if (!p) return;
     const onFrame = (e) => {
       const f = e.detail.frame;
       setFrame((prev) => (Math.abs(f - prev) >= 3 || f === 0 ? f : prev));
     };
-    const onPlay = () => setPlaying(true);
+    const onPlay = () => {
+      setPlaying(true);
+      window.dispatchEvent(new CustomEvent("pitwall:videoplay", { detail: { uid } }));
+    };
     const onPause = () => setPlaying(false);
     const onError = () => setFailed(true);
     const onMuteChange = (e) => {
@@ -221,7 +259,7 @@ export function ClipStage({
       p.removeEventListener("mutechange", onMuteChange);
       p.removeEventListener("volumechange", onVolumeChange);
     };
-  }, []);
+  }, [hasActivated, uid]);
 
   /* --- pause when off screen ----------------------------------------- */
   useEffect(() => {
@@ -236,6 +274,7 @@ export function ClipStage({
   }, []);
 
   useEffect(() => {
+    if (!hasActivated) return;
     const p = playerRef.current;
     if (!p) return;
     if (!autoPlay || reduced) return;
@@ -244,7 +283,7 @@ export function ClipStage({
     } else {
       p.pause();
     }
-  }, [inView, autoPlay, reduced]);
+  }, [hasActivated, inView, autoPlay, reduced]);
 
   /* --- fullscreen detection ------------------------------------------ */
   useEffect(() => {
@@ -554,16 +593,23 @@ export function ClipStage({
   const fmt = (s) =>
     `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 
-  const handleScreenClick = useCallback((e) => {
-    if (
-      e.target.closest("button") ||
-      e.target.closest("input") ||
-      e.target.closest(".stage__shortcuts-modal")
-    )
-      return;
-    toggle();
-    resetControlsTimer();
-  }, [toggle, resetControlsTimer]);
+  const handleScreenClick = useCallback(
+    (e) => {
+      if (
+        e.target.closest("button") ||
+        e.target.closest("input") ||
+        e.target.closest(".stage__shortcuts-modal")
+      )
+        return;
+      if (!hasActivated) {
+        setHasActivated(true);
+        return;
+      }
+      toggle();
+      resetControlsTimer();
+    },
+    [hasActivated, toggle, resetControlsTimer]
+  );
 
   const handleDoubleClick = useCallback((e) => {
     if (
@@ -637,7 +683,33 @@ export function ClipStage({
 
       {/* Screen container */}
       <div className="stage__screen" onClick={handleScreenClick}>
-        {failed ? (
+        {!hasActivated ? (
+          <div className="stage__poster-plate" role="button" aria-label={`Play ${clip.title}`}>
+            <img
+              src={clip.poster}
+              alt={clip.title}
+              className="stage__poster-img"
+              loading="lazy"
+              decoding="async"
+            />
+            <div className="stage__poster-overlay">
+              <button
+                type="button"
+                className="stage__poster-playbtn"
+                aria-label={`Play ${clip.title}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setHasActivated(true);
+                }}
+              >
+                <Icon name="play" />
+              </button>
+              <span className="stage__poster-badge mono t-overline">
+                {clip.runtime} · {cuts.length} cuts
+              </span>
+            </div>
+          </div>
+        ) : failed ? (
           <div className="stage__fail">
             <p className="t-overline hot">Plate unavailable</p>
             <p className="t-small dim">
@@ -664,7 +736,15 @@ export function ClipStage({
             overflowVisible={false}
             renderLoading={() => (
               <div className="stage__loading">
-                <span className="t-overline dim">Loading plate…</span>
+                <img
+                  src={clip.poster}
+                  alt=""
+                  className="stage__poster-img stage__poster-img--blur"
+                  aria-hidden="true"
+                />
+                <span className="t-overline dim" style={{ position: "relative", zIndex: 3 }}>
+                  Loading plate…
+                </span>
               </div>
             )}
             errorFallback={() => (
@@ -791,9 +871,9 @@ export function ClipStage({
                 style={{ "--fill": `${(frame / (total - 1)) * 100}%` }}
               />
               <div className="stage__ticks" aria-hidden="true">
-                {cuts.map((c) => (
+                {cuts.map((c, i) => (
                   <span
-                    key={c.start}
+                    key={`${c.start}-${i}`}
                     className="stage__tick"
                     data-active={c.shot === current.cut.shot}
                     style={{ left: `${(c.start / (total - 1)) * 100}%` }}

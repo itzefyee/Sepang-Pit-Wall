@@ -144,6 +144,7 @@ export function SepangComposition({
       >
         <Video
           src={clip.src}
+          poster={clip.poster}
           startFrom={0}
           muted={false}
           style={{

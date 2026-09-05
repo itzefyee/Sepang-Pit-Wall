@@ -108,6 +108,7 @@ export function Hero() {
           loop
           soundControl
           soundLabel="Music"
+          eager
         />
       </div>
 

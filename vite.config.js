@@ -14,6 +14,16 @@ export default defineConfig({
       input: {
         main: resolve(import.meta.dirname, "index.html"),
         pitwall: resolve(import.meta.dirname, "sepang_progress.html")
+      },
+      output: {
+        manualChunks: (id) => {
+          if (id.includes("@remotion") || id.includes("remotion")) {
+            return "vendor-remotion";
+          }
+          if (id.includes("node_modules/motion") || id.includes("node_modules/lucide-react")) {
+            return "vendor-motion";
+          }
+        }
       }
     }
   }

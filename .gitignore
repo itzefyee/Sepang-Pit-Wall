@@ -56,6 +56,7 @@ blender/out/
 sepang_cine_highlight.mp4
 sepang_onboard_reel.mp4
 sepang_pov_reel.mp4
+public/assets/vid/orig_backup/
 
 # NOTE on final runtime videos:
 # The Vite application serves the following 3 final videos (~63MB combined):

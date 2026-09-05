@@ -77,6 +77,7 @@ export function BloomLayer({ amount }) {
   if (amount <= 0.001) return null;
   return (
     <AbsoluteFill
+      className="stage__layer-bloom"
       style={{
         backdropFilter: `blur(26px) brightness(1.5) saturate(1.3)`,
         WebkitBackdropFilter: `blur(26px) brightness(1.5) saturate(1.3)`,

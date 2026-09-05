@@ -20,6 +20,7 @@ export const CLIPS = {
   onboard: {
     key: "onboard",
     src: "/assets/vid/sepang_onboard_final.mp4",
+    poster: "/assets/img/posters/onboard_poster.webp",
     edit: "onboard",
     durationInFrames: telemetry.edits.onboard.totalFrames,
     width: 1920,
@@ -34,6 +35,7 @@ export const CLIPS = {
   pov: {
     key: "pov",
     src: "/assets/vid/sepang_pov_final.mp4",
+    poster: "/assets/img/posters/pov_poster.webp",
     edit: "pov",
     durationInFrames: telemetry.edits.pov.totalFrames,
     width: 1920,
@@ -48,6 +50,7 @@ export const CLIPS = {
   highlight: {
     key: "highlight",
     src: "/assets/vid/sepang_highlight_final.mp4",
+    poster: "/assets/img/posters/highlight_poster.webp",
     edit: "highlight",
     durationInFrames: telemetry.edits.highlight.totalFrames,
     width: 1920,

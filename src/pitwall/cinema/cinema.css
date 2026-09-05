@@ -713,3 +713,100 @@
   }
 }
 
+/* --- poster plate & mobile virtualization ------------------------------- */
+
+.stage__poster-plate {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #03060a;
+  cursor: pointer;
+  display: block;
+}
+
+.stage__poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s var(--ease-out), filter 0.3s var(--ease-out);
+}
+
+.stage__poster-img--blur {
+  filter: blur(8px) brightness(0.6);
+  position: absolute;
+  inset: 0;
+}
+
+.stage__poster-plate:hover .stage__poster-img {
+  transform: scale(1.025);
+  filter: brightness(1.08);
+}
+
+.stage__poster-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: radial-gradient(circle at center, rgba(3, 6, 10, 0.25) 0%, rgba(3, 6, 10, 0.72) 100%);
+  transition: background 0.3s ease;
+  z-index: 2;
+}
+
+.stage__poster-plate:hover .stage__poster-overlay {
+  background: radial-gradient(circle at center, rgba(3, 6, 10, 0.1) 0%, rgba(3, 6, 10, 0.58) 100%);
+}
+
+.stage__poster-playbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(14, 20, 27, 0.85);
+  border: 1px solid var(--line-bright);
+  color: var(--fg);
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  transition: transform 0.2s var(--ease-out), background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.stage__poster-playbtn svg {
+  width: 22px;
+  height: 22px;
+  margin-left: 2px;
+}
+
+.stage__poster-plate:hover .stage__poster-playbtn {
+  transform: scale(1.1);
+  background: var(--red-bright);
+  border-color: var(--red-bright);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(255, 24, 1, 0.4);
+}
+
+.stage__poster-badge {
+  background: rgba(3, 6, 10, 0.75);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--fg-dim);
+}
+
+/* Mobile GPU optimization: reduce heavy backdrop-filter blur which drops frames on mobile */
+@media (max-width: 768px) {
+  .stage__layer-bloom {
+    backdrop-filter: blur(8px) brightness(1.2) !important;
+    -webkit-backdrop-filter: blur(8px) brightness(1.2) !important;
+  }
+}
+

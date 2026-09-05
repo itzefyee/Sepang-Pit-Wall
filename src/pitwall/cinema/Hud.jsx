@@ -500,11 +500,11 @@ function TraceStrip({ trace, frame, totalFrames, cuts, entry }) {
           stroke="none"
         />
         <path d={d} fill="none" stroke="rgba(216,31,38,0.85)" strokeWidth="1.6" />
-        {cuts.map((c) => {
+        {cuts.map((c, i) => {
           const x = (c.start / Math.max(1, totalFrames - 1)) * w;
           return (
             <line
-              key={c.start}
+              key={`${c.start}-${i}`}
               x1={x}
               y1={0}
               x2={x}
