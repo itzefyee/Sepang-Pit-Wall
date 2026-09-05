@@ -12,6 +12,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
+        main: resolve(import.meta.dirname, "index.html"),
         pitwall: resolve(import.meta.dirname, "sepang_progress.html")
       }
     }
