@@ -6,9 +6,7 @@ import { useEffect, useRef } from "react";
 import { animate } from "motion";
 
 import { COMPOUNDS } from "../data/tyres.js";
-import { useCountUp, useReveal, useSpotlight } from "../hooks.js";
 import { useCountUp, usePrefersReducedMotion, useReveal, useSpotlight } from "../hooks.js";
-
 
 export function Section({ id, no, title, lede, aside, children, className = "" }) {
   const ref = useReveal();
@@ -181,7 +179,6 @@ export function Segmented({ options, value, onChange, label }) {
   }, [value, reduced]);
 
   return (
-    <div className="seg" role="group" aria-label={label}>
     <div
       ref={containerRef}
       className="seg"
@@ -205,8 +202,6 @@ export function Segmented({ options, value, onChange, label }) {
     </div>
   );
 }
-
-
 export function GapNote({ weight, title, children }) {
   return (
     <div className="gapnote">
